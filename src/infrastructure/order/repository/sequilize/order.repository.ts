@@ -34,20 +34,27 @@ export default class OrderRepository implements OrderRepositoryInterface {
       {
         customer_id: entity.customerId,
         total: entity.total(),
-        items: entity.items.map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price,
-          product_id: item.productId,
-          quantity: item.quantity,
-        })),
       },
-      { 
-        where: { 
-          id: entity.id 
-        } 
+      {
+        where: {
+          id: entity.id,
+        },
       }
     );
+
+    await OrderItemModel.destroy({ where: { order_id: entity.id } });
+
+    const items = entity.items.map((item) => ({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      product_id: item.productId,
+      quantity: item.quantity,
+      order_id: entity.id,
+    }));
+
+    await OrderItemModel.bulkCreate(items);
+
   }
 
   async find(id: string): Promise<Order> {

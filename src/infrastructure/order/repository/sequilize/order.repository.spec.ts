@@ -142,9 +142,9 @@ describe("Order repository test", () => {
 
     const updatedOrderItem = new OrderItem(
       "2",
-      productToUpdate.name,
-      productToUpdate.price,
-      productToUpdate.id,
+      product.name,
+      product.price,
+      product.id,
       3
     );
     
@@ -156,7 +156,6 @@ describe("Order repository test", () => {
       include: ["items"],
     });
 
-  //  console.log(orderModel.toJSON());
     expect(orderModel.toJSON()).toStrictEqual({
       id: "123",
       customer_id: "123",
@@ -168,7 +167,7 @@ describe("Order repository test", () => {
           price: updatedOrderItem.price,
           quantity: 3,
           order_id: "123",
-          product_id: "456",
+          product_id: "123",
         },
       ],
     });
